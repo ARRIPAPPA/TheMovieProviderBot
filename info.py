@@ -105,6 +105,8 @@ if 'DYNO' in environ:
 else:
     ON_HEROKU = False
 BIND_ADRESS = str(getenv('WEB_SERVER_BIND_ADDRESS', '0.0.0.0'))
+default_fqdn = getenv('FQDN', BIND_ADRESS)  # Get FQDN or BIND_ADRESS
+FQDN = getenv('FQDN', default=BIND_ADRESS)  # Set default if FQDN is None
 FQDN = str(FQDN) if FQDN is not None else APP_NAME+'https://providerrbot-653ff3d3a473.herokuapp.com'
 URL = "https://providerrbot-653ff3d3a473.herokuapp.com/".format(FQDN) if ON_HEROKU or NO_PORT else \
     "https://providerrbot-653ff3d3a473.herokuapp.com/".format(FQDN, PORT)
