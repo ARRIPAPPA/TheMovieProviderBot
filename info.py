@@ -98,14 +98,17 @@ QUALITIES = ["360P", "", "480P", "", "720P", "", "1080P", "", "1440P", "", "2160
 
 # Online Stream and Download
 NO_PORT = bool(environ.get('NO_PORT', False))
-APP_NAME = None
+APP_NNO_PORT = bool(environ.get('NO_PORT', False))
+APP_NAME = 'providerrbot'
 if 'DYNO' in environ:
     ON_HEROKU = True
     APP_NAME = environ.get('APP_NAME')
 else:
     ON_HEROKU = False
 BIND_ADRESS = str(getenv('WEB_SERVER_BIND_ADDRESS', '0.0.0.0'))
-FQDN = str(getenv('FQDN', BIND_ADRESS)) if not ON_HEROKU or getenv('FQDN') else APP_NAME+'.herokuapp.com'
+default_fqdn = getenv('FQDN', BIND_ADRESS)  # Get FQDN or BIND_ADRESS
+FQDN = getenv('FQDN', default=BIND_ADRESS)  # Set default if FQDN is None
+FQDN = str(FQDN) if FQDN is not None else APP_NAME+'https://providerrbot-653ff3d3a473.herokuapp.com'
 URL = "https://providerrbot-653ff3d3a473.herokuapp.com/".format(FQDN) if ON_HEROKU or NO_PORT else \
     "https://providerrbot-653ff3d3a473.herokuapp.com/".format(FQDN, PORT)
 SLEEP_THRESHOLD = int(environ.get('SLEEP_THRESHOLD', '60'))
